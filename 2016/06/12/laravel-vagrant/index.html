@@ -93,7 +93,7 @@
 <meta property="og:image" content="http://7s1ryu.com1.z0.glb.clouddn.com/深度截图20160612234423.png">
 <meta property="og:image" content="http://7s1ryu.com1.z0.glb.clouddn.com/深度截图20160612235504.png">
 <meta property="og:image" content="http://7s1ryu.com1.z0.glb.clouddn.com/深度截图20160613001731.png">
-<meta property="og:updated_time" content="2016-06-12T16:52:02.388Z">
+<meta property="og:updated_time" content="2016-08-07T03:31:04.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="laravel 日志在 vagrant 虚拟机中无法生成的解决">
 <meta name="twitter:description" content="问题&amp;#160; &amp;#160; &amp;#160; &amp;#160;前段时间开始用 vagrant 在电脑上搭建 Ubuntu 、 PHP 、 Nginx 、 Mysql 环境进行开发，感觉良好。在 Windows 上搭建的环境基本上和线上环境能保持一致，在开发过程中边学边用地掌握了很多 Linux 上的命令和操作技巧。&amp;#160; &amp;#160; &amp;#160; &amp;#160;之前一直在 Windows 上进行">
@@ -328,6 +328,7 @@
 <p><img src="http://7s1ryu.com1.z0.glb.clouddn.com/深度截图20160612234423.png" alt="20160612234423.png"><br>&#160; &#160; &#160; &#160;Permission denied.权限问题，文件的所有者为 vagrant 而不是 Nginx 配置中的用户 www-data ，于是上 <a href="http://stackoverflow.com/" target="_blank" rel="external">StackOverFlow</a>上搜索。看到一个情况比较相似的<a href="http://stackoverflow.com/questions/27674597/laravel-daily-log-created-with-wrong-permissions" target="_blank" rel="external">案例</a>，于是尝试最高票答案的解决方法。<br><img src="http://7s1ryu.com1.z0.glb.clouddn.com/深度截图20160612235504.png" alt="20160612235504.png"><br>&#160; &#160; &#160; &#160;结果并没有什么卵用，permission denied 报错依旧。这种解决方法只适用于解决线上出现的该问题， vagrant 中出现的这个问题要另外的解决方案。<br>&#160; &#160; &#160; &#160;其他的解决方法，例如简单粗暴地使用 crontab 在每天创建日志文件的时候将权限设为777也不实际。</p>
 <h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>&#160; &#160; &#160; &#160;后来在查找 vagrant 配置时发现 vagrant 可以将挂在文件夹的所属用户进行配置，可以将文件夹的用户及用户组都设置为 www-data ，重新启动虚拟机之后再无报错。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.synced_folder &quot;/www&quot;, &quot;/www&quot;, owner: &apos;www-data&apos;, group: &apos;www-data&apos;</span><br></pre></td></tr></table></figure></p>
 <p><img src="http://7s1ryu.com1.z0.glb.clouddn.com/深度截图20160613001731.png" alt="20160613001731.png"></p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>&#160; &#160; &#160; &#160;以上操作仅限于本地开发操作，生产环境商不宜将项目整个目录所属用户设置为 www-data，只将必要的目录和文件所属用户设置为 www-data，否则会造成该用户对所有的文件和目录都有读写权限。</p>
 
       
     </div>
@@ -460,7 +461,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -489,7 +490,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决"><span class="nav-number">2.</span> <span class="nav-text">解决</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决"><span class="nav-number">2.</span> <span class="nav-text">解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">3.</span> <span class="nav-text">注意</span></a></li></ol></div>
             
           </div>
         </section>
